@@ -75,4 +75,14 @@ class FluxAndMonoGeneratorServiceTest {
                 .expectNextCount(12)
                 .verifyComplete();
     }
+
+    @Test
+    void namesFluxConcatMap() {
+        var nameFlux = fluxAndMonoGeneratorService.namesFluxConcatMap();
+        var resultArray = "ALEXBENCHLOE".split("");
+        StepVerifier.create(nameFlux)
+                .expectNext(resultArray)
+               // .expectNextCount(12)
+                .verifyComplete();
+    }
 }
