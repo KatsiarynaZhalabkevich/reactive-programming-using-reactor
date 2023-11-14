@@ -100,6 +100,13 @@ public class FluxAndMonoGeneratorService {
                 .transform(function)
                 .defaultIfEmpty("default").log();
     }
+    public Flux<String> namesFluxSwitchIfEmpty(int nameLen) {
+        Function<Flux<String>, Flux<String>> function = name -> name.map(String::toUpperCase)
+                .filter(s -> s.length() < nameLen);
+        return Flux.fromIterable(List.of("alex", "ben", "chloe"))
+                .transform(function)
+                .switchIfEmpty(Flux.just("default").flatMap(s->splitString(s))).log();
+    }
 
     public static void main(String[] args) {
         FluxAndMonoGeneratorService fluxAndMonoGeneratorService = new FluxAndMonoGeneratorService();
