@@ -17,32 +17,51 @@ public class FluxAndMonoGeneratorService {
         return Mono.just("alex");
     }
 
+    public Mono<String> nameMonoMapFilter(int stringLen) {
+        return Mono.just("alex").map(String::toUpperCase).filter(s -> s.length() > stringLen);
+    }
+
+    public Mono<List<String>> nameMonoFlatMapFilter(int stringLen) {
+        return Mono.just("alex")
+                .map(String::toUpperCase)
+                .filter(s -> s.length() > stringLen)
+                .flatMap(this::stringSplitMono);
+    }
+
+    private Mono<List<String>> stringSplitMono(String s) {
+      var  charArray = s.split("");
+      return Mono.just(List.of(charArray));
+    }
+
     public Flux<String> namesFluxMap() {
         return Flux.fromIterable(List.of("alex", "ben", "chloe")).map(String::toUpperCase);
     }
+
     public Flux<String> namesFluxFlatMap() {
         return Flux.fromIterable(List.of("alex", "ben", "chloe"))
                 .flatMap(this::splitString)
                 .map(String::toUpperCase);
     }
+
     public Flux<String> namesFluxConcatMap() {
         return Flux.fromIterable(List.of("alex", "ben", "chloe"))
                 .concatMap(this::splitStringWithDelay)
                 .map(String::toUpperCase)
                 .log();
     }
+
     public Flux<String> namesFluxFlatMapAsync() {
         return Flux.fromIterable(List.of("alex", "ben", "chloe"))
                 .flatMap(this::splitStringWithDelay)
                 .map(String::toUpperCase).log();
     }
 
-    public Flux<String> splitString(String name){
+    public Flux<String> splitString(String name) {
         var letters = name.split("");
-       return Flux.fromArray(letters);
+        return Flux.fromArray(letters);
     }
 
-    public Flux<String> splitStringWithDelay(String name){
+    public Flux<String> splitStringWithDelay(String name) {
         var letters = name.split("");
         var delay = new Random().nextInt(10000);
         return Flux.fromArray(letters).delayElements(Duration.ofMillis(delay));
