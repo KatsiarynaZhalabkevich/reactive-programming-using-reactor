@@ -84,7 +84,7 @@ class FluxAndMonoGeneratorServiceTest {
         var resultArray = "ALEXBENCHLOE".split("");
         StepVerifier.create(nameFlux)
                 .expectNext(resultArray)
-               // .expectNextCount(12)
+                // .expectNextCount(12)
                 .verifyComplete();
     }
 
@@ -95,5 +95,14 @@ class FluxAndMonoGeneratorServiceTest {
         StepVerifier.create(nameMono)
                 .expectNext(List.of("A", "L", "E", "X"))
                 .verifyComplete();
+    }
+
+    @Test
+    void nameMonoFlatMapManyFilter() {
+        var nameMono = fluxAndMonoGeneratorService.nameMonoFlatMapManyFilter(3);
+        StepVerifier.create(nameMono)
+                .expectNext("A", "L", "E", "X")
+                .verifyComplete();
+
     }
 }
