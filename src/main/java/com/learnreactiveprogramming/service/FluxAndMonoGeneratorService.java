@@ -93,6 +93,13 @@ public class FluxAndMonoGeneratorService {
         return Flux.fromIterable(List.of("alex", "ben", "chloe"))
                 .transform(function).log();
     }
+    public Flux<String> namesFluxDefaultEmpty(int nameLen) {
+        Function<Flux<String>, Flux<String>> function = name -> name.map(String::toUpperCase)
+                .filter(s -> s.length() < nameLen);
+        return Flux.fromIterable(List.of("alex", "ben", "chloe"))
+                .transform(function)
+                .defaultIfEmpty("default").log();
+    }
 
     public static void main(String[] args) {
         FluxAndMonoGeneratorService fluxAndMonoGeneratorService = new FluxAndMonoGeneratorService();

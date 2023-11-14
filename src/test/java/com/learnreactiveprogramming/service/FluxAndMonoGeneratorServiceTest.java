@@ -115,4 +115,12 @@ class FluxAndMonoGeneratorServiceTest {
                 // .expectNextCount(12)
                 .verifyComplete();
     }
+
+    @Test
+    void namesFluxDefaultIfEmpty() {
+        var nameFlux = fluxAndMonoGeneratorService.namesFluxDefaultEmpty(3);
+        StepVerifier.create(nameFlux)
+                .expectNext("default")
+                .verifyComplete();
+    }
 }
