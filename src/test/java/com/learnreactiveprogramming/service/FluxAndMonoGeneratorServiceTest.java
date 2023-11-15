@@ -131,4 +131,28 @@ class FluxAndMonoGeneratorServiceTest {
                 .expectNext("d", "e", "f", "a", "u", "l", "t")
                 .verifyComplete();
     }
+
+    @Test
+    void explorerConcat() {
+        var nameFlux = fluxAndMonoGeneratorService.explorerConcat();
+        StepVerifier.create(nameFlux)
+                .expectNext("a", "b", "c", "d", "e", "f")
+                .verifyComplete();
+    }
+
+    @Test
+    void explorerConcatWith() {
+        var nameFlux = fluxAndMonoGeneratorService.explorerConcatWith();
+        StepVerifier.create(nameFlux)
+                .expectNext("a", "b", "c", "d", "e", "f")
+                .verifyComplete();
+    }
+
+    @Test
+    void explorerConcatWithMono() {
+        var nameFlux = fluxAndMonoGeneratorService.explorerConcatWithMono();
+        StepVerifier.create(nameFlux)
+                .expectNext("a", "b")
+                .verifyComplete();
+    }
 }

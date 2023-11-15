@@ -108,6 +108,24 @@ public class FluxAndMonoGeneratorService {
                 .switchIfEmpty(Flux.just("default").flatMap(s->splitString(s))).log();
     }
 
+    public Flux<String> explorerConcat(){
+        var abcFlux = Flux.just("a", "b", "c");
+        var defFlux = Flux.just("d", "e", "f");
+        return Flux.concat(abcFlux, defFlux);
+    }
+
+    public Flux<String> explorerConcatWith(){
+        var abcFlux = Flux.just("a", "b", "c");
+        var defFlux = Flux.just("d", "e", "f");
+        return abcFlux.concatWith(defFlux);
+    }
+
+    public Flux<String> explorerConcatWithMono(){
+        var aMono = Mono.just("a");
+        var bMono = Mono.just("b");
+        return aMono.concatWith(bMono);
+    }
+
     public static void main(String[] args) {
         FluxAndMonoGeneratorService fluxAndMonoGeneratorService = new FluxAndMonoGeneratorService();
         fluxAndMonoGeneratorService
